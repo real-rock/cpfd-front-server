@@ -16,6 +16,7 @@ import { Box } from '@mui/system';
 import DownloadForOfflineIcon from '@mui/icons-material/DownloadForOffline';
 import { engToKor } from '../Commons/Dictionary/Dictionary';
 import getInoutLogsToFile from '../APIs/GetInoutLog/GetInoutLogsToFile';
+import { baseUrl } from '../APIs/BaseUrl';
 
 export function ActivityLog() {
     const [data, setData] = useState(null);
@@ -27,9 +28,7 @@ export function ActivityLog() {
             setError(null);
             setData(null);
             setLoading(true);
-            const response = await axios.get(
-                'http://localhost:8080/v1/logs/log',
-            );
+            const response = await axios.get(baseUrl + '/logs/log');
             setData(response.data);
         } catch (e) {
             setError(e);

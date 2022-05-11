@@ -12,7 +12,6 @@ import {
 import ToggleButton from '../Components/ToggleButton/ToggleButton';
 import { DatePicker } from '../Components/DatePicker/DatePicker';
 import { getParticleData } from '../APIs/GetParticleData/GetParticleData';
-import { particlesInfo } from '../Commons/Dictionary/Dictionary';
 import { Colors } from '../Commons/Colors/Colors';
 
 export const ParticleChart = () => {
