@@ -89,7 +89,13 @@ export const ParticleChart = () => {
                                 type="number"
                             />
                             <YAxis />
-                            <Tooltip />
+                            <Tooltip
+                                labelFormatter={unixTime =>
+                                    moment(unixTime * 1000).format(
+                                        'YYYY-MM-DD HH:mm',
+                                    )
+                                }
+                            />
                             <Legend
                                 verticalAlign="bottom"
                                 height={10}
