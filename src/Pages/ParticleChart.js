@@ -13,6 +13,7 @@ import ToggleButton from '../Components/ToggleButton/ToggleButton';
 import { DatePicker } from '../Components/DatePicker/DatePicker';
 import { getParticleData } from '../APIs/GetParticleData/GetParticleData';
 import { Colors } from '../Commons/Colors/Colors';
+import moment from 'moment';
 
 export const ParticleChart = () => {
     const [data, setData] = useState(null);
@@ -78,8 +79,14 @@ export const ParticleChart = () => {
                             ))}
                             <XAxis
                                 dataKey="time"
+                                domain={['auto', 'auto']}
                                 padding={{ left: 20, right: 20 }}
-                                allowDuplicatedCategory={false}
+                                tickFormatter={unixTime =>
+                                    moment(unixTime * 1000).format(
+                                        'YYYY-MM-DD HH:mm',
+                                    )
+                                }
+                                type="number"
                             />
                             <YAxis />
                             <Tooltip />
