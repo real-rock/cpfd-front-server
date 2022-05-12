@@ -14,6 +14,7 @@ import { DatePicker } from '../Components/DatePicker/DatePicker';
 import { getParticleData } from '../APIs/GetParticleData/GetParticleData';
 import { Colors } from '../Commons/Colors/Colors';
 import moment from 'moment';
+import getParticleFile from '../APIs/GetParticleData/GetParticleFile';
 
 export const ParticleChart = () => {
     const [data, setData] = useState(null);
@@ -44,7 +45,6 @@ export const ParticleChart = () => {
             </Typography>
         );
     if (!data) return null;
-    console.log(data);
     return (
         <Box sx={{ margin: '20px', marginTop: '100px' }}>
             <Typography variant="h2">Particle Chart</Typography>
@@ -61,9 +61,9 @@ export const ParticleChart = () => {
                     rowGap={6}
                     sx={{ p: '20px' }}
                 >
-                    <ResponsiveContainer width="75%" height={400}>
+                    <ResponsiveContainer width="75%" height={600}>
                         <LineChart
-                            margin={{ top: 100, right: 20, bottom: 5, left: 0 }}
+                            margin={{ top: 80, right: 20, bottom: 5, left: 0 }}
                         >
                             {activateData.map((s, index) => (
                                 <Line
@@ -80,7 +80,6 @@ export const ParticleChart = () => {
                             <XAxis
                                 dataKey="time"
                                 domain={['auto', 'auto']}
-                                padding={{ left: 20, right: 20 }}
                                 tickFormatter={unixTime =>
                                     moment(unixTime * 1000).format(
                                         'YYYY-MM-DD HH:mm',
@@ -115,6 +114,13 @@ export const ParticleChart = () => {
                             setDate={setEndDate}
                         />
                         <Button
+                            sx={{
+                                boxShadow: 2,
+                                fontWeight: '600',
+                                fontSize: '20px',
+                                color: '#053C5E',
+                                background: '#BFDBF7',
+                            }}
                             onClick={() => {
                                 getParticleData(
                                     startDate,
@@ -127,8 +133,22 @@ export const ParticleChart = () => {
                         >
                             Apply
                         </Button>
+                        <Button
+                            sx={{
+                                boxShadow: 2,
+                                fontWeight: '600',
+                                fontSize: '20px',
+                                color: '#053C5E',
+                                background: '#BFDBF7',
+                            }}
+                            onClick={() => {
+                                getParticleFile(startDate, endDate);
+                            }}
+                        >
+                            Download csv
+                        </Button>
                     </Stack>
-                    <Box item>
+                    <Box item sx={{ p: '20px', marginLeft: '40px' }}>
                         <Stack spacing={2}>
                             <Stack direction="row">
                                 <ToggleButton
