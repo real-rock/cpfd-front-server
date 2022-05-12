@@ -19,6 +19,7 @@ import ActivityManager from '../../Pages/ActivityManager';
 import { ActivityLog } from '../../Pages/ActivityLog';
 import { ParticleChart } from '../../Pages/ParticleChart';
 import { ParticleLog } from '../../Pages/ParticleLog';
+import { UrlPathIndex } from '../../Commons/Paths/Paths';
 
 const drawerWidth = 240;
 
@@ -72,7 +73,9 @@ const MiniDrawer = () => {
     const theme = useTheme();
     let navigate = useNavigate();
     const [open, setOpen] = React.useState(false);
-    const [page, setPage] = React.useState(0);
+    const [page, setPage] = React.useState(
+        UrlPathIndex[window.location.pathname],
+    );
 
     const itemsList = [
         {
