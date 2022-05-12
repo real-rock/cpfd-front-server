@@ -15,11 +15,17 @@ import { getParticleData } from '../APIs/GetParticleData/GetParticleData';
 import { Colors } from '../Commons/Colors/Colors';
 import moment from 'moment';
 import getParticleFile from '../APIs/GetParticleData/GetParticleFile';
+import { particlesInfo } from '../Commons/Dictionary/Dictionary';
+import { Machines } from '../Commons/Machines';
+import DownloadForOfflineIcon from '@mui/icons-material/DownloadForOffline';
+import { LoadingButton } from '@mui/lab';
 
 export const ParticleChart = () => {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(false);
+    const [downloadLoading, setDownloadLoading] = useState(false);
     const [error, setError] = useState(null);
+    const [pState, setPState] = useState(particlesInfo);
 
     const [startDate, setStartDate] = React.useState(
         new Date('2022-05-07T09:39:00'),
@@ -35,15 +41,17 @@ export const ParticleChart = () => {
     if (loading)
         return (
             <Typography variant="h2" sx={{ p: '40px', marginTop: '100px' }}>
-                로딩중..
+                Loading...
             </Typography>
         );
+
     if (error)
         return (
             <Typography variant="h2" sx={{ p: '40px', marginTop: '100px' }}>
-                에러 발생
+                Something went wrong!
             </Typography>
         );
+    console.log(pState);
     if (!data) return null;
     return (
         <Box sx={{ margin: '20px', marginTop: '100px' }}>
@@ -79,15 +87,16 @@ export const ParticleChart = () => {
                             ))}
                             <XAxis
                                 dataKey="time"
-                                domain={['auto', 'auto']}
+                                domain={['dataMin', 'dataMax']}
                                 tickFormatter={unixTime =>
                                     moment(unixTime * 1000).format(
                                         'YYYY-MM-DD HH:mm',
                                     )
                                 }
+                                padding={{ left: 20, right: 20 }}
                                 type="number"
                             />
-                            <YAxis />
+                            <YAxis domain={[0, dataMax => dataMax * 1.2]} />
                             <Tooltip
                                 labelFormatter={unixTime =>
                                     moment(unixTime * 1000).format(
@@ -102,7 +111,7 @@ export const ParticleChart = () => {
                             />
                         </LineChart>
                     </ResponsiveContainer>
-                    <Stack item spacing={2}>
+                    <Stack item spacing={2} sx={{ marginTop: '80px' }}>
                         <DatePicker
                             label="Start Date"
                             date={startDate}
@@ -133,7 +142,8 @@ export const ParticleChart = () => {
                         >
                             Apply
                         </Button>
-                        <Button
+                        <LoadingButton
+                            loading={downloadLoading}
                             sx={{
                                 boxShadow: 2,
                                 fontWeight: '600',
@@ -141,54 +151,34 @@ export const ParticleChart = () => {
                                 color: '#053C5E',
                                 background: '#BFDBF7',
                             }}
+                            startIcon={<DownloadForOfflineIcon />}
                             onClick={() => {
-                                getParticleFile(startDate, endDate);
+                                getParticleFile(
+                                    startDate,
+                                    endDate,
+                                    setDownloadLoading,
+                                );
                             }}
                         >
                             Download csv
-                        </Button>
+                        </LoadingButton>
                     </Stack>
-                    <Box item sx={{ p: '20px', marginLeft: '40px' }}>
-                        <Stack spacing={2}>
-                            <Stack direction="row">
+                    <Stack
+                        item
+                        direction="row"
+                        sx={{ p: '20px', marginLeft: '40px' }}
+                    >
+                        {Machines.map(id => {
+                            return (
                                 <ToggleButton
-                                    label="107"
+                                    label={id}
+                                    initState={pState[id]}
+                                    handleState={setPState}
                                     setActivateData={setActivateData}
                                 />
-                                <ToggleButton
-                                    label="120"
-                                    setActivateData={setActivateData}
-                                />
-                                <ToggleButton
-                                    label="121"
-                                    setActivateData={setActivateData}
-                                />
-                                <ToggleButton
-                                    label="124"
-                                    setActivateData={setActivateData}
-                                />
-                                <ToggleButton
-                                    label="134"
-                                    setActivateData={setActivateData}
-                                />
-                                <ToggleButton
-                                    label="181"
-                                    data={data}
-                                    setActivateData={setActivateData}
-                                />
-                                <ToggleButton
-                                    label="196"
-                                    data={data}
-                                    setActivateData={setActivateData}
-                                />
-                                <ToggleButton
-                                    label="199"
-                                    data={data}
-                                    setActivateData={setActivateData}
-                                />
-                            </Stack>
-                        </Stack>
-                    </Box>
+                            );
+                        })}
+                    </Stack>
                 </Grid>
             </Paper>
         </Box>

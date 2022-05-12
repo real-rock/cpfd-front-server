@@ -3,8 +3,17 @@ import Box from '@mui/material/Box';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 
-export default function ToggleButton({ label, setActivateData }) {
-    const [state, setState] = React.useState([false, false, false]);
+export default function ToggleButton({
+    label,
+    initState,
+    handleState,
+    setActivateData,
+}) {
+    const [state, setState] = React.useState([
+        initState['pm1'],
+        initState['pm2_5'],
+        initState['pm10'],
+    ]);
 
     const handlePmOneByOne = (event, newData) => {
         if (event.target.checked) {
@@ -16,21 +25,26 @@ export default function ToggleButton({ label, setActivateData }) {
             });
         } else {
             setActivateData(prev => {
-                console.log(label, newData.pm);
                 return prev.filter(e => {
                     return e.key !== newData.key;
                 });
             });
         }
+
+        handleState(prev => {
+            let newObj = { ...prev };
+            newObj[label][newData.pm] = event.target.checked;
+            return newObj;
+        });
     };
 
-    const handleAllPm = newData => {
-        if (state[0] || state[1] || state[2]) {
+    const handleAllPm = (event, newData) => {
+        if (event.target.checked) {
             setActivateData(prev => {
                 let newArr = prev.filter(e => {
                     return e.label !== label;
                 });
-                return [...newArr, newData];
+                return newArr.concat(newData);
             });
         } else {
             setActivateData(prev => {
@@ -39,6 +53,14 @@ export default function ToggleButton({ label, setActivateData }) {
                 });
             });
         }
+
+        handleState(prev => {
+            let newObj = { ...prev };
+            newObj[label]['pm1'] = event.target.checked;
+            newObj[label]['pm2_5'] = event.target.checked;
+            newObj[label]['pm10'] = event.target.checked;
+            return newObj;
+        });
     };
 
     const handleChange1 = event => {
@@ -47,12 +69,11 @@ export default function ToggleButton({ label, setActivateData }) {
             event.target.checked,
             event.target.checked,
         ]);
-        handleAllPm(
-            event,
+        handleAllPm(event, [
             { label: label, pm: 'pm1', key: label + '_PM1' },
             { label: label, pm: 'pm2_5', key: label + '_PM2.5' },
             { label: label, pm: 'pm10', key: label + '_PM10' },
-        );
+        ]);
     };
 
     const handlePm1 = event => {
@@ -111,7 +132,7 @@ export default function ToggleButton({ label, setActivateData }) {
                             state[1] !== state[2] ||
                             state[0] !== state[2]
                         }
-                        onChange={handleChange1}
+                        onClick={handleChange1}
                     />
                 }
             />
