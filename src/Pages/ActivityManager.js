@@ -40,6 +40,7 @@ class ActivityManager extends Component {
             'LeeGwangJo',
             'HeoJinSeok',
             'KimWanJoo',
+            'LeeKiSeok',
             'GUEST1',
             'GUEST2',
             'GUEST3',

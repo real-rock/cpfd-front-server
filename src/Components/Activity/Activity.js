@@ -10,6 +10,7 @@ const person = [
     '허진석',
     '김완주',
     '박성범',
+    '이기석',
     'GUEST1',
     'GUEST2',
     'GUEST3',

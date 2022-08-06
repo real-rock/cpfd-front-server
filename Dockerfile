@@ -7,5 +7,7 @@ COPY . ./
 ENV PATH /app/node_modules/.bin:$PATH
 RUN npm i
 
+ENV PORT 80
+
 ENTRYPOINT ["npm"]
 CMD ["start"]
