@@ -19,11 +19,7 @@ const person = [
 class Activity extends Component {
     render() {
         const onClick = () => {
-            let t = this.props.name;
-            if (person.includes(this.props.name) === true) {
-                t = 'PERSON';
-            }
-            postActivity(korToEng[this.props.name], !this.props.isActive, t);
+            postActivity(korToEng[this.props.name], !this.props.isActive);
             this.props.onClickUpdate(
                 korToEng[this.props.name],
                 !this.props.isActive,

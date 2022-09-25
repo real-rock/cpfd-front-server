@@ -18,7 +18,7 @@ export const getParticleData = async (
             start: toStringByFormatting(startDate),
             end: toStringByFormatting(endDate),
         };
-        const response = await axios.get(baseUrl + '/logs/chart/particle', {
+        const response = await axios.get(baseUrl + '/logs/particle', {
             headers: {
                 'Content-Type': 'application/json',
             },

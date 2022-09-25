@@ -3,7 +3,7 @@ import { baseUrl } from '../BaseUrl';
 
 export default async function getInoutLogs() {
     try {
-        const res = await axios.get(baseUrl + '/logs/log', {
+        const res = await axios.get(baseUrl + '/logs/activity', {
             headers: {
                 'Content-Type': 'application/json',
             },

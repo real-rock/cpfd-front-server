@@ -1,1 +1,1 @@
-export const baseUrl = 'http://api.khu-cpfd.com:9019/v1';
+export const baseUrl = 'http://163.180.132.240:9019/v1';

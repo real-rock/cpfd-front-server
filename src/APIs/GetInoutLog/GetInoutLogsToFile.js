@@ -5,7 +5,7 @@ import { baseUrl } from '../BaseUrl';
 export default async function getInoutLogsToFile() {
     try {
         axios
-            .get(baseUrl + '/logs/file', {
+            .get(baseUrl + '/logs/file/activity', {
                 responseType: 'blob',
             })
             .then(res => {
