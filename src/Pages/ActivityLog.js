@@ -28,7 +28,7 @@ export function ActivityLog() {
             setError(null);
             setData(null);
             setLoading(true);
-            const response = await axios.get(baseUrl + '/logs/log');
+            const response = await axios.get(baseUrl + '/logs/activity');
             setData(response.data);
         } catch (e) {
             setError(e);
@@ -89,11 +89,11 @@ export function ActivityLog() {
                                 }}
                             >
                                 <TableCell align="center">
-                                    {engToKor[row[0]]}
+                                    {engToKor[row["name"]]}
                                 </TableCell>
-                                <TableCell align="center">{row[1]}</TableCell>
-                                <TableCell align="center">{row[2]}</TableCell>
-                                <TableCell align="center">{row[3]}</TableCell>
+                                <TableCell align="center">{row["created_at"]}</TableCell>
+                                <TableCell align="center">{row["action"].toString()}</TableCell>
+                                <TableCell align="center">{row["type"]}</TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
